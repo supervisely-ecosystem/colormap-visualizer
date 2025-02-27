@@ -34,8 +34,9 @@ colormaps_cv2 = {
     "TURBO": cv2.COLORMAP_TURBO,
     "DEEPGREEN": cv2.COLORMAP_DEEPGREEN,
 }
-items = [Select.Item(colormap, name.title()) for name, colormap in colormaps_cv2.items()]
-colormap_select = Select(items)
+colormaps = list(colormaps_cv2.values())
+items = [Select.Item(i, name.title()) for i, name in enumerate(colormaps_cv2)]
+colormap_select = Select(items, widget_id="colormap_select_widget")
 colormap_field = Field(
     title="Colormap",
     description="Select the colormap to apply",
@@ -52,8 +53,3 @@ def processing_switched(is_switched):
         colormap_select.enable()
     else:
         colormap_select.disable()
-
-
-@colormap_select.value_changed
-def colormap_changed(value):
-    logger.debug(f"Colormap is now {value}")
