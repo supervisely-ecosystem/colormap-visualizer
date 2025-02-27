@@ -6,8 +6,14 @@ from src.gui import layout, need_processing, colormap_select, colormaps
 app = WebPyApplication(layout)
 
 def process_img(img, colormap):
+    if img.dtype != np.uint8:
+        if img.max() <= 1.0:
+            img = (img * 255).astype(np.uint8)
+        else:
+            img = img.astype(np.uint8)
     img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-    return np.array(cv2.applyColorMap(img, colormap))
+    new_img = cv2.applyColorMap(img, colormap)
+    return np.array(new_img)
 
 
 @colormap_select.value_changed
