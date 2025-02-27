@@ -23,6 +23,7 @@ def colormap_changed(value):
 
 @app.event(app.Event.ManualSelected.ImageChanged)
 def image_changed(event: WebPyApplication.Event.ManualSelected.ImageChanged):
+    print("Image changed: ", app._context.imageId)
     if not need_processing.is_on():
         return
     colormap = colormaps[colormap_select.get_value()]
