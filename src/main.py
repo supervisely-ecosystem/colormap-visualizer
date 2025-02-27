@@ -10,8 +10,7 @@ def process_img(img, colormap):
     new_img = cv2.applyColorMap(img_bgr, colormap)
     new_img = cv2.cvtColor(new_img, cv2.COLOR_BGR2RGB)
     alpha_channel = img[:, :, 3]
-    cl_img = np.dstack((new_img, alpha_channel))
-    return cl_img.flatten().astype(np.uint8)
+    return np.dstack((new_img, alpha_channel))
 
 
 @colormap_select.value_changed
