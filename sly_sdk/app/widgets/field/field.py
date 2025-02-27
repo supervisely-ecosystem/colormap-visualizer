@@ -2,8 +2,58 @@ from __future__ import annotations
 
 from typing import Any, Dict, List, Optional
 
-import sly_sdk.imaging.color as sly_color
 from sly_sdk.app.widgets.widget import Widget
+
+
+def validate_channel_value(value: int) -> None:
+    """
+    Generates ValueError if value not between 0 and 255.
+
+    :param value: Input channel value.
+    :type value: int
+    :raises: :class:`ValueError` if value not between 0 and 255.
+    :return: None
+    :rtype: :class:`NoneType`
+    """
+    if 0 <= value <= 255:
+        pass
+    else:
+        raise ValueError("Color channel has to be in range [0; 255]")
+
+
+def _validate_color(color):
+    """
+    Checks input color for compliance with the required format
+    :param: color: color (RGB tuple of integers)
+    """
+    if not isinstance(color, (list, tuple)):
+        raise ValueError("Color has to be list, or tuple")
+    if len(color) != 3:
+        raise ValueError("Color have to contain exactly 3 values: [R, G, B]")
+    for channel in color:
+        validate_channel_value(channel)
+
+
+def rgb2hex(color: List[int, int, int]) -> str:
+    """
+    Convert integer color format to HEX string.
+
+    :param color: List of existing colors in RGB format.
+    :type color: List[int, int, int]
+    :return: HEX RGB string
+    :rtype: :class:`str`
+    :Usage example:
+
+     .. code-block:: python
+
+        import supervisely as sly
+
+        hex_color = sly.color.rgb2hex([128, 64, 255])
+        print(hex_color)
+        # Output: #8040FF
+    """
+    _validate_color(color)
+    return "#" + "".join("{:02X}".format(component) for component in color)
 
 
 class Field(Widget):
@@ -75,9 +125,9 @@ class Field(Widget):
             self._bg_color = bg_color_rgb
             self._image_url = image_url
             if self._color is not None:
-                sly_color._validate_color(self._color)
+                _validate_color(self._color)
             if self._bg_color is not None:
-                sly_color._validate_color(self._bg_color)
+                _validate_color(self._bg_color)
 
         def to_json(self) -> Dict[str, Any]:
             """Returns JSON representation of the icon.
@@ -96,11 +146,11 @@ class Field(Widget):
             res = {}
             if self._zmdi_class is not None:
                 res["className"] = self._zmdi_class
-                res["color"] = sly_color.rgb2hex(self._color)
-                res["bgColor"] = sly_color.rgb2hex(self._bg_color)
+                res["color"] = rgb2hex(self._color)
+                res["bgColor"] = rgb2hex(self._bg_color)
             if self._image_url is not None:
                 res["imageUrl"] = self._image_url
-                res["bgColor"] = sly_color.rgb2hex(self._bg_color)
+                res["bgColor"] = rgb2hex(self._bg_color)
             return res
 
     def __init__(

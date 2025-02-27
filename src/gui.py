@@ -45,9 +45,9 @@ colormap_field = Field(
 
 layout = Container(widgets=[processing_field, colormap_field], widget_id="layout_widget")
 
+
 @need_processing.value_changed
 def processing_switched(is_switched):
-    logger.debug(f"Processing is now {is_switched}")
     if is_switched:
         colormap_select.enable()
     else:
