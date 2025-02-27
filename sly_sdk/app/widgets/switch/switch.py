@@ -1,5 +1,5 @@
 from __future__ import annotations
-from sly_sdk.webpy import DataJson, StateJson, MainServer
+from sly_sdk.webpy.app import DataJson, StateJson, MainServer
 from sly_sdk.app.widgets.widget import Widget, ConditionalWidget, ConditionalItem
 from typing import Dict
 
