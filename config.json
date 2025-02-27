@@ -1,8 +1,8 @@
 {
   "type": "client_side_app",
   "version": "2.0.0",
-  "name": "Colormap visualizer",
-  "description": "Visualize colormaps in real-time",
+  "name": "Colormap Visualizer",
+  "description": "Real-time colormap postprocessing visualization for Image Labeling Toolbox",
   "categories": [
     "images",
     "visualization"
