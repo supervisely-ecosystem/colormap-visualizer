@@ -333,59 +333,56 @@ class WebPyApplication(metaclass=Singleton):
                 figure_id = data["figureId"]
                 return cls(figure_id)
 
-        class ManualSelected:
-            class ImageChanged:
-                """This event is triggered when the user changes the image in the Image Labeling Tooolbox."""
+        class ImageChanged:
+            endpoint = "/manual_selected_image_changed"
 
-                endpoint = "/manual_selected_image_changed"
+            def __init__(
+                self,
+                dataset_id: int,
+                team_id: int,
+                workspace_id: int,
+                project_id: int,
+                image_id: int,
+                figure_id: int,
+                figure_class_id: int,
+                figure_class_title: str,
+                tool_class_id: int,
+                session_id: str,
+                tool: str,
+                user_id: int,
+                job_id: int,
+            ):
+                self.dataset_id = dataset_id
+                self.team_id = team_id
+                self.workspace_id = workspace_id
+                self.project_id = project_id
+                self.image_id = image_id
+                self.figure_id = figure_id
+                self.figure_class_id = figure_class_id
+                self.figure_class_title = figure_class_title
+                self.tool_class_id = tool_class_id
+                self.session_id = session_id
+                self.tool = tool
+                self.user_id = user_id
+                self.job_id = job_id
 
-                def __init__(
-                    self,
-                    dataset_id: int,
-                    team_id: int,
-                    workspace_id: int,
-                    project_id: int,
-                    image_id: int,
-                    figure_id: int,
-                    figure_class_id: int,
-                    figure_class_title: str,
-                    tool_class_id: int,
-                    session_id: str,
-                    tool: str,
-                    user_id: int,
-                    job_id: int,
-                ):
-                    self.dataset_id = dataset_id
-                    self.team_id = team_id
-                    self.workspace_id = workspace_id
-                    self.project_id = project_id
-                    self.image_id = image_id
-                    self.figure_id = figure_id
-                    self.figure_class_id = figure_class_id
-                    self.figure_class_title = figure_class_title
-                    self.tool_class_id = tool_class_id
-                    self.session_id = session_id
-                    self.tool = tool
-                    self.user_id = user_id
-                    self.job_id = job_id
-
-                @classmethod
-                def from_json(cls, data: dict):
-                    return cls(
-                        dataset_id=data.get("datasetId"),
-                        team_id=data.get("teamId"),
-                        workspace_id=data.get("workspaceId"),
-                        project_id=data.get("projectId"),
-                        image_id=data.get("imageId"),
-                        figure_id=data.get("figureId"),
-                        figure_class_id=data.get("figureClassId"),
-                        figure_class_title=data.get("figureClassTitle"),
-                        tool_class_id=data.get("toolClassId"),
-                        session_id=data.get("sessionId"),
-                        tool=data.get("tool"),
-                        user_id=data.get("userId"),
-                        job_id=data.get("jobId"),
-                    )
+            @classmethod
+            def from_json(cls, data: dict):
+                return cls(
+                    dataset_id=data.get("datasetId"),
+                    team_id=data.get("teamId"),
+                    workspace_id=data.get("workspaceId"),
+                    project_id=data.get("projectId"),
+                    image_id=data.get("imageId"),
+                    figure_id=data.get("figureId"),
+                    figure_class_id=data.get("figureClassId"),
+                    figure_class_title=data.get("figureClassTitle"),
+                    tool_class_id=data.get("toolClassId"),
+                    session_id=data.get("sessionId"),
+                    tool=data.get("tool"),
+                    user_id=data.get("userId"),
+                    job_id=data.get("jobId"),
+                )
 
     def __init__(self, layout=None):
         if layout is None:

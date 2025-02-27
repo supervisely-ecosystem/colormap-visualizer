@@ -27,8 +27,8 @@ def colormap_changed(value):
     app.replace_current_image(new_img)
 
 
-@app.event(app.Event.ManualSelected.ImageChanged)
-def image_changed(event: WebPyApplication.Event.ManualSelected.ImageChanged):
+@app.event(app.Event.ImageChanged)
+def image_changed(event: WebPyApplication.Event.ImageChanged):
     global original_img_data
     if not need_processing.is_on():
         return
