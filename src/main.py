@@ -6,18 +6,12 @@ from src.gui import layout, need_processing, colormap_select, colormaps
 app = WebPyApplication(layout)
 
 def process_img(img, colormap):
-    if img.dtype != np.uint8:
-        if img.max() <= 1.0:
-            img = (img * 255).astype(np.uint8)
-        else:
-            img = img.astype(np.uint8)
-    if img.shape[2] == 4:
-        img = cv2.cvtColor(img, cv2.COLOR_BGRA2BGR)
-    else:
-        img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-    # Reshape from 4 to 3 channels
-    new_img = cv2.applyColorMap(img, colormap)
-    return np.array(new_img)
+    img_bgr = cv2.cvtColor(img, cv2.COLOR_RGBA2BGR)
+    new_img = cv2.applyColorMap(img_bgr, colormap)
+    new_img = cv2.cvtColor(new_img, cv2.COLOR_BGR2RGB)
+    alpha_channel = img[:, :, 3]
+    cl_img = np.dstack((new_img, alpha_channel))
+    return cl_img.flatten().astype(np.uint8)
 
 
 @colormap_select.value_changed
