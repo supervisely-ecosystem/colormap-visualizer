@@ -11,7 +11,11 @@ def process_img(img, colormap):
             img = (img * 255).astype(np.uint8)
         else:
             img = img.astype(np.uint8)
-    img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+    if img.shape[2] == 4:
+        img = cv2.cvtColor(img, cv2.COLOR_BGRA2BGR)
+    else:
+        img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+    # Reshape from 4 to 3 channels
     new_img = cv2.applyColorMap(img, colormap)
     return np.array(new_img)
 
