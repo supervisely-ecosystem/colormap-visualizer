@@ -5,8 +5,6 @@ from src.gui import layout, need_processing, colormap_select, colormaps
 
 app = WebPyApplication(layout)
 
-original_img_data = None
-
 def process_img(img, colormap):
     img_bgr = cv2.cvtColor(img, cv2.COLOR_RGBA2BGR)
     new_img = cv2.applyColorMap(img_bgr, colormap)
@@ -17,23 +15,17 @@ def process_img(img, colormap):
 
 @colormap_select.value_changed
 def colormap_changed(value):
-    global original_img_data
     colormap = colormaps[value]
-    if original_img_data is None:
-        img = app.get_current_image()
-        original_img_data = img
-    img = original_img_data
-    new_img = process_img(img, colormap)
+    new_img = process_img(app.state.imagePixelsData, colormap)
     app.replace_current_image(new_img)
 
 
-@app.event(app.Event.ImageChanged)
-def image_changed(event: WebPyApplication.Event.ImageChanged):
-    if not need_processing.is_on():
-        return
-    global original_img_data
-    original_img_data = app.get_current_image()
-    app._context.imageId = event.image_id
-    colormap_changed(colormap_select.get_value())
-
-colormap_select.set_value(0)
+@app.run_function
+def main():
+    if app.state.imagePixelsDataImageId != app._context.imageId:
+        app.state.imagePixelsData = app.get_current_image()
+        app.state.imagePixelsDataImageId = app._context.imageId
+        if need_processing.is_on():
+            colormap = colormaps[colormap_select.get_value()]
+            new_img = process_img(app.state.imagePixelsData, colormap)
+            app.replace_current_image(new_img)

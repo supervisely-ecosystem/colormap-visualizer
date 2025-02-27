@@ -4,7 +4,7 @@ import cv2
 need_processing = Switch(switched=True, widget_id="need_processing_widget")
 processing_field = Field(
     title="Apply colormap",
-    description="If turned on, the effect will be aplied",
+    description="If toggled, the effect will be applied",
     content=need_processing,
     widget_id="processing_field_widget",
 )
@@ -36,7 +36,6 @@ colormaps_cv2 = {
 colormaps = list(colormaps_cv2.values())
 items = [Select.Item(i, name.title().replace("_", " ")) for i, name in enumerate(colormaps_cv2)]
 colormap_select = Select(items, widget_id="colormap_select_widget")
-colormap_select.set_value(1)
 colormap_field = Field(
     title="Colormap",
     description="Select the colormap to apply",
