@@ -103,15 +103,32 @@
 <el-switch :disabled="data.need_processing_widget.disabled" :off-color="data.need_processing_widget.offColor" :off-text="data.need_processing_widget.offText" :on-color="data.need_processing_widget.onColor" :on-text="data.need_processing_widget.onText" :width="data.need_processing_widget.width" @change="runPythonScript('/need_processing_widget/value_changed')" style="padding-bottom: 5px;" v-if="!data.need_processing_widget.hide" v-loading="data.need_processing_widget.loading" v-model="state.need_processing_widget.value">
 </el-switch>
 </sly-field></div>
-<div style=""><link href="./sly/css/app/widgets/field/style.css" rel="stylesheet" v-if="!data.dilation_strength_field_widget.hide" v-loading="data.dilation_strength_field_widget.loading"/>
-<sly-field :description="data.dilation_strength_field_widget.description" :title="data.dilation_strength_field_widget.title" style="margin-bottom: 0px" v-if="!data.dilation_strength_field_widget.hide" v-loading="data.dilation_strength_field_widget.loading">
-<a :href="data.dilation_strength_field_widget.title_url" slot="title" target="_blank" v-if="data.dilation_strength_field_widget.title_url">{{data.dilation_strength_field_widget.title}}
+<div style=""><link href="./sly/css/app/widgets/field/style.css" rel="stylesheet" v-if="!data.colormap_field_widget.hide" v-loading="data.colormap_field_widget.loading"/>
+<sly-field :description="data.colormap_field_widget.description" :title="data.colormap_field_widget.title" style="margin-bottom: 0px" v-if="!data.colormap_field_widget.hide" v-loading="data.colormap_field_widget.loading">
+<a :href="data.colormap_field_widget.title_url" slot="title" target="_blank" v-if="data.colormap_field_widget.title_url">{{data.colormap_field_widget.title}}
   </a>
-<a :href="data.dilation_strength_field_widget.description_url" slot="description" target="_blank" v-if="data.dilation_strength_field_widget.description_url">{{data.dilation_strength_field_widget.description}}
+<a :href="data.colormap_field_widget.description_url" slot="description" target="_blank" v-if="data.colormap_field_widget.description_url">{{data.colormap_field_widget.description}}
   </a>
-<sly-icon :options="data.dilation_strength_field_widget.icon" slot="icon" v-if="data.dilation_strength_field_widget.icon"></sly-icon>
-<el-slider :disabled="data.dilation_strength_widget.disabled" :height="data.dilation_strength_widget.height" :max="data.dilation_strength_widget.max" :min="data.dilation_strength_widget.min" :range="data.dilation_strength_widget.range" :show-input="data.dilation_strength_widget.showInput" :show-input-controls="data.dilation_strength_widget.showInputControls" :show-stops="data.dilation_strength_widget.showStops" :show-tooltip="data.dilation_strength_widget.showTooltip" :step="data.dilation_strength_widget.step" :value="state.dilation_strength_widget.value" :vertical="data.dilation_strength_widget.vertical" @change="runPythonScript('/dilation_strength_widget/value_changed')" @input="state.dilation_strength_widget.value = $event" style="padding: 20px" v-if="!data.dilation_strength_widget.hide" v-loading="data.dilation_strength_widget.loading">
-</el-slider>
+<sly-icon :options="data.colormap_field_widget.icon" slot="icon" v-if="data.colormap_field_widget.icon"></sly-icon>
+<el-select :disabled="data.colormap_select_widget.disabled" :filterable="data.colormap_select_widget.filterable" :fit-input-width="data.colormap_select_widget.fit_input_width" :multiple="data.colormap_select_widget.multiple" :placeholder="data.colormap_select_widget.placeholder" @change="runPythonScript('/colormap_select_widget/value_changed')" v-if="!data.colormap_select_widget.hide" v-loading="data.colormap_select_widget.loading" v-model="state.colormap_select_widget.value">
+<div v-if="data.colormap_select_widget.items">
+<el-option :disabled="item.disabled" :key="item.value" :label="item.label" :value="item.value" v-for="item in data.colormap_select_widget.items">
+<span style="float: left" v-if="item.right_text !== null">{{ item.label }}</span>
+<span style="float: right; color: #8492a6; font-size: 13px" v-if="item.right_text !== null">{{ item.right_text }}</span>
+</el-option>
+</div>
+<div v-else="">
+<el-option-group :disabled="group.disabled" :key="group.label" :label="group.label" v-for="group in data.colormap_select_widget.groups">
+<el-option :disabled="item.disabled" :key="item.value" :label="item.label" :value="item.value" v-for="item in group.options">
+<span style="float: left" v-if="item.right_text">{{ item.label }}</span>
+<span style="float: right; color: #8492a6; font-size: 13px" v-if="item.right_text">{{ item.right_text }}</span>
+</el-option>
+</el-option-group>
+</div>
+</el-select>
+<span style="margin-left:10px;" v-if="(data.colormap_select_widget.with_link) &amp;&amp; data.colormap_select_widget.hide === false" v-loading="data.colormap_select_widget.loading">
+<a :href="state.colormap_select_widget.links[state.colormap_select_widget.value]" target="_blank">Learn more...</a>
+</span>
 </sly-field></div>
 </div></div></div>  <el-dialog
   v-model="state.slyAppShowDialog"
@@ -211,7 +228,7 @@ with tarfile.open(tar_path, "r:") as tar_ref:
     const allowedActions = new Set([
       
     
-    'figures/commitFigureGeometryToServer',
+    '/manual_selected_image_changed',
       
     
     ]);

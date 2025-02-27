@@ -437,6 +437,30 @@ class WebPyApplication(metaclass=Singleton):
         img_arr = np.array(py_arr_data, dtype=np.uint8).reshape((img_cvs.height, img_cvs.width, 4))
         return img_arr
 
+    def replace_current_image(self, img_data: np.ndarray):
+        from js import ImageData
+        from pyodide.ffi import create_proxy
+
+        height, width = img_data.shape[:2]
+        img_data = img_data.flatten().astype(np.uint8)
+        pixels_proxy = create_proxy(img_data)
+        pixels_buf = pixels_proxy.getBuffer("u8clamped")
+        new_img_data = ImageData.new(pixels_buf.data, width, height)
+
+        try:
+            current_image_data = (
+                getattr(self._store.state.videos.all, str(self._context.imageId))
+                .sources[0]
+                .imageData
+            )
+            img_ctx = current_image_data.getContext("2d")
+            img_ctx.putImageData(new_img_data, 0, 0)
+        except Exception as e:
+            raise e
+        finally:
+            pixels_proxy.destroy()
+            pixels_buf.release()
+
     def get_current_image_id(self):
         return self._context.imageId
 

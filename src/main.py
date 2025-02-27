@@ -1,7 +1,6 @@
 import cv2
 import numpy as np
 from sly_sdk.webpy import WebPyApplication
-from sly_sdk.sly_logger import logger
 from src.gui import layout, need_processing, colormap_select, colormaps
 
 app = WebPyApplication(layout)
@@ -15,6 +14,7 @@ def colormap_changed(value):
     colormap = colormaps[value]
     img = app.get_current_image()
     new_img = process_img(img, colormap)
+    app.replace_current_image(new_img)
 
 
 @app.event(app.Event.ManualSelected.ImageChanged)
@@ -24,3 +24,4 @@ def image_changed(event: WebPyApplication.Event.ManualSelected.ImageChanged):
     colormap = colormaps[colormap_select.get_value()]
     img = app.get_current_image()
     new_img = process_img(img, colormap)
+    app.replace_current_image(new_img)
