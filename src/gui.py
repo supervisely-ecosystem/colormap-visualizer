@@ -1,5 +1,4 @@
-from supervisely.app.widgets import Container, Switch, Field, Select
-from supervisely.sly_logger import logger
+from sly_sdk.app.widgets import Container, Switch, Field, Select
 import cv2
 
 need_processing = Switch(switched=True, widget_id="need_processing_widget")
