@@ -1,4 +1,4 @@
-from supervisely.app.widgets import Container, Slider, Switch, Field, Select
+from supervisely.app.widgets import Container, Switch, Field, Select
 from supervisely.sly_logger import logger
 import cv2
 
