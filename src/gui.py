@@ -34,8 +34,9 @@ colormaps_cv2 = {
     "DEEPGREEN": cv2.COLORMAP_DEEPGREEN,
 }
 colormaps = list(colormaps_cv2.values())
-items = [Select.Item(i, name.title()) for i, name in enumerate(colormaps_cv2)]
+items = [Select.Item(i, name.title().replace("_", " ")) for i, name in enumerate(colormaps_cv2)]
 colormap_select = Select(items, widget_id="colormap_select_widget")
+colormap_select.set_value(1)
 colormap_field = Field(
     title="Colormap",
     description="Select the colormap to apply",

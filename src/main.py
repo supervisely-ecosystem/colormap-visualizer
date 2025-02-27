@@ -29,9 +29,11 @@ def colormap_changed(value):
 
 @app.event(app.Event.ImageChanged)
 def image_changed(event: WebPyApplication.Event.ImageChanged):
+    if not need_processing.is_on():
+        return
     global original_img_data
     original_img_data = app.get_current_image()
     app._context.imageId = event.image_id
-    if not need_processing.is_on():
-        return
     colormap_changed(colormap_select.get_value())
+
+colormap_select.set_value(0)
