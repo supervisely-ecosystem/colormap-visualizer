@@ -448,13 +448,14 @@ class WebPyApplication(metaclass=Singleton):
         new_img_data = ImageData.new(pixels_buf.data, width, height)
 
         try:
-            current_image_data = (
-                getattr(self._store.state.videos.all, str(self._context.imageId))
-                .sources[0]
-                .imageData
-            )
-            img_ctx = current_image_data.getContext("2d")
+            current_image_data = getattr(self._store.state.videos.all, str(self._context.imageId))
+            img_src = current_image_data.sources[0]
+            img_cvs = img_src.imageData
+
+            img_ctx = img_cvs.getContext("2d")
             img_ctx.putImageData(new_img_data, 0, 0)
+
+            img_src.version += 1
         except Exception as e:
             raise e
         finally:
