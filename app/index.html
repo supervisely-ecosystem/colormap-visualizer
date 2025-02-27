@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link id="favicon" rel="icon" type="image/x-icon" href="https://cdn.supervise.ly/favicon.ico" />
+  <link type="text/css" rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/supervisely/js-bundle@2.1.98/sly-app-widgets-2.1.98.bundle.css" />
+  <style>
+    #app-global-loading-icon {
+      background: white;
+      border-radius: 50%;
+      width: 75px;
+      height: 75px;
+      padding: 10px;
+      margin: 10px 0;
+      position: relative;
+    }
+
+    @keyframes app-loading-rotation {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    #app-global-loading-icon::after {
+      content: "";
+      box-sizing: border-box;
+      position: absolute;
+      left: 0;
+      top: 0;
+      transform: translate(-50%, -50%);
+      width: 95px;
+      height: 95px;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      border-bottom-color: #fb4481;
+      animation: app-loading-rotation 1s linear infinite;
+    }
+
+    #app-global-loading-icon>img {
+      width: 75px;
+      border-radius: 50%;
+    }
+
+    .extended-app-header .app-session-header-widget>div {
+      margin-bottom: 0;
+      padding-left: 20px;
+    }
+
+    .app-session-header-solid {
+      background: white;
+      box-shadow: 0 5px 10px #0000000d;
+      border-bottom: 1px solid #dfe2e8;
+      position: relative;
+    }
+  </style>
+  <title>Supervisely App</title>
+</head>
+
+<body style="background-color: #f4f7fe">
+  <center>
+    <div id="app-global-loading-icon">
+      <img src="https://app.supervise.ly/loading.gif" />
+    </div>
+  </center>
+  
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+  
+  <script
+    src="https://cdn.jsdelivr.net/gh/supervisely/js-bundle@2.1.98/sly-app-widgets-2.1.98.bundle.js"></script>
+  <script type="module"
+    src="https://cdn.jsdelivr.net/gh/supervisely-ecosystem/supervisely-app-frontend-js@vv0.0.55/SlyApp.js"></script>
+  <script>
+    window.parent.postMessage('{ "showHeader": false }', "*");
+  </script>
+
+  
+
+  <div id="sly-app">
+    <sly-app>
+      <template v-slot="{ post, state, data, session, isStaticVersion, publicApiInstance }">
+        <div
+          :style="{'padding': `${state.app_body_padding} ${state.app_body_padding} 0`, 'display': 'flex', 'flex-direction': 'row', 'place-items': 'center'}"
+            >
+          <sly-app-header v-if="session" :session="session" :data="data" :state="state"></sly-app-header>
+          
+        </div>
+        <div :style="{'padding': `0 ${state.app_body_padding} ${state.app_body_padding}`}" v-loading="state.app_initializing" >
+           <div><div v-if="!data.__app_main_layout__.hide" v-loading="data.__app_main_layout__.loading"><link href="./sly/css/app/widgets/container/style.css" rel="stylesheet" v-if="!data.layout_widget.hide" v-loading="data.layout_widget.loading"/>
+<!-- should be widget._direction == 'vertical' instead of widget._flex_direction == 'vertical' -->
+<div class="container" style="flex-direction: column; gap: 10px; " v-if="!data.layout_widget.hide" v-loading="data.layout_widget.loading">
+<div style=""><link href="./sly/css/app/widgets/field/style.css" rel="stylesheet" v-if="!data.processing_field_widget.hide" v-loading="data.processing_field_widget.loading"/>
+<sly-field :description="data.processing_field_widget.description" :title="data.processing_field_widget.title" style="margin-bottom: 0px" v-if="!data.processing_field_widget.hide" v-loading="data.processing_field_widget.loading">
+<a :href="data.processing_field_widget.title_url" slot="title" target="_blank" v-if="data.processing_field_widget.title_url">{{data.processing_field_widget.title}}
+  </a>
+<a :href="data.processing_field_widget.description_url" slot="description" target="_blank" v-if="data.processing_field_widget.description_url">{{data.processing_field_widget.description}}
+  </a>
+<sly-icon :options="data.processing_field_widget.icon" slot="icon" v-if="data.processing_field_widget.icon"></sly-icon>
+<el-switch :disabled="data.need_processing_widget.disabled" :off-color="data.need_processing_widget.offColor" :off-text="data.need_processing_widget.offText" :on-color="data.need_processing_widget.onColor" :on-text="data.need_processing_widget.onText" :width="data.need_processing_widget.width" @change="runPythonScript('/need_processing_widget/value_changed')" style="padding-bottom: 5px;" v-if="!data.need_processing_widget.hide" v-loading="data.need_processing_widget.loading" v-model="state.need_processing_widget.value">
+</el-switch>
+</sly-field></div>
+<div style=""><link href="./sly/css/app/widgets/field/style.css" rel="stylesheet" v-if="!data.dilation_strength_field_widget.hide" v-loading="data.dilation_strength_field_widget.loading"/>
+<sly-field :description="data.dilation_strength_field_widget.description" :title="data.dilation_strength_field_widget.title" style="margin-bottom: 0px" v-if="!data.dilation_strength_field_widget.hide" v-loading="data.dilation_strength_field_widget.loading">
+<a :href="data.dilation_strength_field_widget.title_url" slot="title" target="_blank" v-if="data.dilation_strength_field_widget.title_url">{{data.dilation_strength_field_widget.title}}
+  </a>
+<a :href="data.dilation_strength_field_widget.description_url" slot="description" target="_blank" v-if="data.dilation_strength_field_widget.description_url">{{data.dilation_strength_field_widget.description}}
+  </a>
+<sly-icon :options="data.dilation_strength_field_widget.icon" slot="icon" v-if="data.dilation_strength_field_widget.icon"></sly-icon>
+<el-slider :disabled="data.dilation_strength_widget.disabled" :height="data.dilation_strength_widget.height" :max="data.dilation_strength_widget.max" :min="data.dilation_strength_widget.min" :range="data.dilation_strength_widget.range" :show-input="data.dilation_strength_widget.showInput" :show-input-controls="data.dilation_strength_widget.showInputControls" :show-stops="data.dilation_strength_widget.showStops" :show-tooltip="data.dilation_strength_widget.showTooltip" :step="data.dilation_strength_widget.step" :value="state.dilation_strength_widget.value" :vertical="data.dilation_strength_widget.vertical" @change="runPythonScript('/dilation_strength_widget/value_changed')" @input="state.dilation_strength_widget.value = $event" style="padding: 20px" v-if="!data.dilation_strength_widget.hide" v-loading="data.dilation_strength_widget.loading">
+</el-slider>
+</sly-field></div>
+</div></div></div>  <el-dialog
+  v-model="state.slyAppShowDialog"
+  :title="data.slyAppDialogTitle"
+  size="tiny"
+>
+  <div class="fflex" style="margin: -20px 0 -20px 0">
+    <i
+      v-if="data.slyAppDialogStatus === 'info'"
+      class="notification-box-icon el-icon-information information mr15"
+      style="font-size: 35px; color: #50bfff"
+    ></i>
+    <i
+      v-if="data.slyAppDialogStatus === 'success'"
+      class="notification-box-icon el-icon-circle-check information mr15"
+      style="font-size: 35px; color: #13ce66"
+    ></i>
+    <i
+      v-if="data.slyAppDialogStatus === 'warning'"
+      class="notification-box-icon el-icon-warning information mr15"
+      style="font-size: 35px; color: #f7ba2a"
+    ></i>
+    <i
+      v-if="data.slyAppDialogStatus === 'error'"
+      class="notification-box-icon el-icon-circle-cross information mr15"
+      style="font-size: 35px; color: #ff4949"
+    ></i>
+
+    <span
+      style="min-height: 35px; align-items: center; word-break: break-word"
+      v-html="data.slyAppDialogMessage"
+    ></span>
+  </div>
+
+  <div slot="footer">
+    <el-button type="primary" @click="state.slyAppShowDialog = false;"
+      >Ok</el-button
+    >
+  </div>
+</el-dialog>
+        </div>
+      </template>
+    </sly-app>
+  </div>
+
+  <!-- Offline session styles fix -->
+  <script>
+    let resizeCounter = 0;
+    let resizeInterval = setInterval(() => {
+      resizeCounter += 1;
+      window.dispatchEvent(new Event("resize"));
+
+      if (resizeCounter > 3) {
+        clearInterval(resizeInterval);
+      }
+    }, 2000);
+
+    let pyodide = null;
+    let mainScriptTxt = null;
+
+    async function loadDependency(pyodide, url, modulePath) {
+      const pythonCode = await fetch(url).then(response => response.text());
+      const FS = pyodide.FS;
+      FS.writeFile(modulePath, pythonCode);
+    }
+
+    async function setupAndImportPythonPackage(url, packageName) {
+      const FS = pyodide.FS;
+
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch TAR file: ${response.statusText}`);
+      }
+      const tarData = await response.arrayBuffer();
+
+      const tarPath = `${packageName}.tar`;
+      FS.writeFile(tarPath, new Uint8Array(tarData));
+
+      const extractTo = `./`;
+      const pythonCode = `
+import tarfile
+import sys
+import os
+
+tar_path = "${tarPath}"
+extract_to = "${extractTo}"
+
+os.makedirs(extract_to, exist_ok=True)
+with tarfile.open(tar_path, "r:") as tar_ref:
+    tar_ref.extractall(extract_to)
+`;
+      await pyodide.runPythonAsync(pythonCode);
+
+      console.log(`Package ${packageName} extracted to ${extractTo}`);
+    }
+
+    const allowedActions = new Set([
+      
+    
+    'figures/commitFigureGeometryToServer',
+      
+    
+    ]);
+    let unSubStoreAction = null;
+
+    function subToStoreAction() {
+      if (unSubStoreAction) {
+        unSubStoreAction();
+      }
+
+      const store = window.slyApp.store;
+
+      unSubStoreAction = store.subscribeAction((action) => {
+        if (!allowedActions.has(action.type)) return;
+        runPythonScript(action);
+      });
+
+      console.log("Subscribed to store actions");
+    }
+
+    async function loadMainPythonScript() {
+      pyodide = await loadPyodide();
+      await pyodide.loadPackage("micropip");
+      const micropip = pyodide.pyimport("micropip");
+      await micropip.install(["typing_extensions == 4.8"]) // needed for fastapi
+      await micropip.install(["ssl"]) // needed for fastapi
+      await micropip.install(["fastapi"]) // needed for sdk
+
+      
+      
+      await micropip.install(["python-json-logger>=0.1.11, <3.0.0"])
+      
+      await micropip.install(["jsonschema>=2.6.0,<=4.20.0"])
+      
+      await micropip.install(["aiofiles"])
+      
+      await micropip.install(["httpx[http2]==0.27.2"])
+      
+      await micropip.install(["requests-toolbelt>=0.9.1"])
+      
+      await micropip.install(["tqdm>=4.62.3, <5.0.0"])
+      
+      await micropip.install(["python-dotenv>=0.19.2, <=1.0.0"])
+      
+      await micropip.install(["numpy>=1.19, <2.0.0"])
+      
+      await micropip.install(["pyjwt>=2.1.0,<3.0.0"])
+      
+      await micropip.install(["setuptools"])
+      
+      await micropip.install(["opencv-python"])
+      
+      
+
+      await setupAndImportPythonPackage("./sly_sdk.tar", "sly_sdk") // temporary solution
+      await setupAndImportPythonPackage("./src.tar", "src")
+      
+
+      mainScriptTxt = await fetch("./__webpy_script__.py").then((response) => response.text());
+      python_code = `
+from sly_sdk.webpy import WebPyApplication
+app = WebPyApplication()
+state = app.state
+if state.get("app_initializing", False) == True:
+    state["app_initializing"] = False
+    state.send_changes()
+`
+      const fn = pyodide.runPython(python_code);
+      if (typeof fn === "function") {
+        const newParams = params.map(p => pyodide.toPy(p));
+        result = fn(...newParams);
+      } else {
+        result = fn;
+      }
+      subToStoreAction();
+    }
+
+    let initPromise = null;
+
+    async function runPythonScript(...params) {
+      if (initPromise) {
+        await initPromise;
+        initPromise = null;
+      }
+
+      let result;
+      const timeStart = performance.now();
+
+      const fn = pyodide.runPython(mainScriptTxt);
+      if (typeof fn === "function") {
+        const newParams = params.map(p => pyodide.toPy(p));
+        result = fn(...newParams);
+      } else {
+        result = fn;
+      }
+
+      const timeEnd = performance.now();
+      console.log("Web Python script executed in", timeEnd - timeStart, "ms");
+
+      return result;
+    }
+
+    const runPythonScriptThrottled = _.throttle(runPythonScript, 50);
+    
+    initPromise = loadMainPythonScript();
+    
+  </script>
+  <!-- Hot reload script -->
+  
+</body>
+
+</html>
