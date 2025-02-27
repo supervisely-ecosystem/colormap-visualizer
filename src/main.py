@@ -6,6 +6,7 @@ from src.gui import layout, need_processing, colormap_select, colormaps
 app = WebPyApplication(layout)
 
 def process_img(img, colormap):
+    img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
     return np.array(cv2.applyColorMap(img, colormap))
 
 
