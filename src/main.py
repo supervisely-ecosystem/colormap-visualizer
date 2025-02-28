@@ -45,7 +45,7 @@ def main():
     if hasattr(state, "imagePixelsDataImageId") is False:
         setattr(state, "imagePixelsDataImageId", 0)
 
-    cur_img = getattr(app.store.state.videos.all, str(app._context.imageId))
+    cur_img = getattr(app._store.state.videos.all, str(app._context.imageId))
     img_src = cur_img.sources[0]
     img_cvs = img_src.imageData
 
