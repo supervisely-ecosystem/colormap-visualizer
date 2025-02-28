@@ -16,6 +16,12 @@ def process_img(img, colormap):
 @colormap_select.value_changed
 def colormap_changed(value):
     colormap = colormaps[value]
+    img_data = getattr(app.state, "imagePixelsData", None)
+    if img_data is None:
+        setattr(app.state, "imagePixelsData", app.get_current_image())
+        img_id = getattr(app.state, "imagePixelsDataImageId", None)
+        if img_id is None:
+            setattr(app.state, "imagePixelsDataImageId", app._context.imageId)
     new_img = process_img(app.state.imagePixelsData, colormap)
     app.replace_current_image(new_img)
 
