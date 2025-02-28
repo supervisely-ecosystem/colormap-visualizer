@@ -27,12 +27,12 @@ This is Web Python application that runs in the browser, no supervisely agent is
 
 **Step 1:** Open annotation tool and select `Apps` tab in the right-bottom section
 
-<img src=""/>
+<img src="https://github.com/user-attachments/assets/bff6a424-056d-42ed-a3d0-e2bd7fcf3ada"/>
 
 **Step 2:** Find `Colormap Visualizer` app. And click `Run` button.
 
-<img src=""/>
+<img src="https://github.com/user-attachments/assets/da421e2f-5b0e-4bc2-9294-6a7a266188cf"/>
 
 **Step 3:** Select the colormap, and see the result
 
-<img src="">
+<img src="https://github.com/user-attachments/assets/e01e31af-e3d0-408f-8205-f28713e2e154">
