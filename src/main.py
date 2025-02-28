@@ -24,16 +24,16 @@ def colormap_changed(value):
 @app.run_function
 def main():
     if hasattr(app.state, "imagePixelsData") is False:
-        setattr(app.state, "imagePixelsData", None)
+        setattr(app.state, "imagePixelsData", app.get_current_image())
     if hasattr(app.state, "imagePixelsDataImageId") is False:
         setattr(app.state, "imagePixelsDataImageId", 0)
+    if not need_processing.is_on():
+        app.replace_current_image(app.state.imagePixelsData)
+        return
 
     if app.state.imagePixelsDataImageId != app._context.imageId:
         app.state.imagePixelsData = app.get_current_image()
         app.state.imagePixelsDataImageId = app._context.imageId
-        if not need_processing.is_on():
-            app.replace_current_image(app.state.imagePixelsData)
-            return
         colormap = colormaps[colormap_select.get_value()]
         new_img = process_img(app.state.imagePixelsData, colormap)
         app.replace_current_image(new_img)
