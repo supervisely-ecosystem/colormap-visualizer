@@ -44,13 +44,13 @@ def main():
         setattr(state, "imagePixelsData", None)
     if hasattr(state, "imagePixelsDataImageId") is False:
         setattr(state, "imagePixelsDataImageId", 0)
-
+    if apply_processing is False:
+        return
     cur_img = getattr(app._store.state.videos.all, str(app._context.imageId))
     img_src = cur_img.sources[0]
     img_cvs = img_src.imageData
-
     img_ctx = img_cvs.getContext("2d")
-    if apply_processing and state.imagePixelsDataImageId != app._context.imageId:
+    if state.imagePixelsDataImageId != app._context.imageId:
         img_data = img_ctx.getImageData(0, 0, img_cvs.width, img_cvs.height).data
         state.imagePixelsData = np.array(img_data, dtype=np.uint8).reshape(
             img_cvs.height, img_cvs.width, 4

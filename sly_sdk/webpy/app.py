@@ -383,7 +383,7 @@ class WebPyApplication(metaclass=Singleton):
         img_arr = np.array(py_arr_data, dtype=np.uint8).reshape((img_cvs.height, img_cvs.width, 4))
         return img_arr
 
-    def replace_current_image(self, img_data: np.ndarray, img_src=None, img_ctx=None):
+    def replace_current_image(self, img_data: np.ndarray):
         from js import ImageData
         from pyodide.ffi import create_proxy
 
@@ -394,13 +394,10 @@ class WebPyApplication(metaclass=Singleton):
         new_img_data = ImageData.new(pixels_buf.data, width, height)
 
         try:
-            if img_src is None or img_ctx is None:
-                current_image_data = getattr(
-                    self._store.state.videos.all, str(self._context.imageId)
-                )
-                img_src = current_image_data.sources[0]
-                img_cvs = img_src.imageData
-                img_ctx = img_cvs.getContext("2d")
+            current_image_data = getattr(self._store.state.videos.all, str(self._context.imageId))
+            img_src = current_image_data.sources[0]
+            img_cvs = img_src.imageData
+            img_ctx = img_cvs.getContext("2d")
             img_ctx.putImageData(new_img_data, 0, 0)
             img_src.version += 1
         except Exception as e:
