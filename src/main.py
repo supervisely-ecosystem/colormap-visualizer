@@ -37,6 +37,10 @@ def processing_switched(is_switched):
 
 @app.run_function
 def main():
+    import js
+
+    js.console.log(app._context.imageId)
+
     global colormap
     global apply_processing
     state = app.state

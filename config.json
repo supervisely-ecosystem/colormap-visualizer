@@ -11,5 +11,8 @@
   "integrated_into": ["image_annotation_tool"],
   "gui_folder_path": "app",
   "main_script": "src/main.py",
-  "src_dir": "src"
+  "src_dir": "src",
+  "icon": "https://github.com/user-attachments/assets/4f92e3e8-1231-43ce-8a28-94bc7687f713",
+  "icon_cover": true,
+  "poster": "https://github.com/user-attachments/assets/f3270f77-7deb-44ab-9d27-aa8f7dac02f1"
 }
