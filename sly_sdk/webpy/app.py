@@ -645,6 +645,7 @@ app.run"""
         return f(*args, **kwargs)
 
     def run(self, *args, **kwargs):
+        self.is_inited = False
         t = time.perf_counter()
         try:
             from fastapi.routing import APIRoute

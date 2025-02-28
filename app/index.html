@@ -330,9 +330,6 @@ if state.get("app_initializing", False) == True:
     const runPythonScriptThrottled = _.throttle(runPythonScript, 50);
     
     initPromise = loadMainPythonScript();
-    setInterval(() => {
-      runPythonScript();
-    }, 1000);
     
   </script>
   <!-- Hot reload script -->
