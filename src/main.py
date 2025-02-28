@@ -16,29 +16,24 @@ def process_img(img, colormap):
 @colormap_select.value_changed
 def colormap_changed(value):
     colormap = colormaps[value]
-    img_data = getattr(app.state, "imagePixelsData", None)
-    if img_data is None:
-        setattr(app.state, "imagePixelsData", app.get_current_image())
-        img_id = getattr(app.state, "imagePixelsDataImageId", None)
-        if img_id is None:
-            setattr(app.state, "imagePixelsDataImageId", app._context.imageId)
-    new_img = process_img(app.state.imagePixelsData, colormap)
+    img_data = getattr(app.state, "imagePixelsData", app.get_current_image())
+    new_img = process_img(img_data, colormap)
     app.replace_current_image(new_img)
 
 
 @app.run_function
 def main():
-    img_data = getattr(app.state, "imagePixelsData", None)
-    if img_data is None:
+    if hasattr(app.state, "imagePixelsData") is False:
         setattr(app.state, "imagePixelsData", None)
-    img_id = getattr(app.state, "imagePixelsDataImageId", None)
-    if img_id is None:
+    if hasattr(app.state, "imagePixelsDataImageId") is False:
         setattr(app.state, "imagePixelsDataImageId", 0)
 
-    if img_id != app._context.imageId:
+    if app.state.imagePixelsDataImageId != app._context.imageId:
         app.state.imagePixelsData = app.get_current_image()
         app.state.imagePixelsDataImageId = app._context.imageId
-        if need_processing.is_on():
-            colormap = colormaps[colormap_select.get_value()]
-            new_img = process_img(app.state.imagePixelsData, colormap)
-            app.replace_current_image(new_img)
+        if not need_processing.is_on():
+            app.replace_current_image(app.state.imagePixelsData)
+            return
+        colormap = colormaps[colormap_select.get_value()]
+        new_img = process_img(app.state.imagePixelsData, colormap)
+        app.replace_current_image(new_img)
