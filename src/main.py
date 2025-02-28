@@ -28,7 +28,14 @@ def colormap_changed(value):
 
 @app.run_function
 def main():
-    if app.state.imagePixelsDataImageId != app._context.imageId:
+    img_data = getattr(app.state, "imagePixelsData", None)
+    if img_data is None:
+        setattr(app.state, "imagePixelsData", None)
+    img_id = getattr(app.state, "imagePixelsDataImageId", None)
+    if img_id is None:
+        setattr(app.state, "imagePixelsDataImageId", 0)
+
+    if img_id != app._context.imageId:
         app.state.imagePixelsData = app.get_current_image()
         app.state.imagePixelsDataImageId = app._context.imageId
         if need_processing.is_on():
