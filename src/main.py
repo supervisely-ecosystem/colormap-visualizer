@@ -34,6 +34,6 @@ def main():
     if app.state.imagePixelsDataImageId != app._context.imageId:
         app.state.imagePixelsData = app.get_current_image()
         app.state.imagePixelsDataImageId = app._context.imageId
-        colormap = colormaps[colormap_select.get_value()]
-        new_img = process_img(app.state.imagePixelsData, colormap)
-        app.replace_current_image(new_img)
+    colormap = colormaps[colormap_select.get_value()]
+    new_img = process_img(app.state.imagePixelsData, colormap)
+    app.replace_current_image(new_img)
