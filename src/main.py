@@ -29,8 +29,10 @@ def colormap_changed(value):
 def processing_switched(is_switched):
     if is_switched is False:
         app.replace_current_image(app.state.imagePixelsData)
+        colormap_select.disable()
     else:
         app.state.imagePixelsDataImageId = 0
+        colormap_select.enable()
     global apply_processing
     apply_processing = is_switched
 
